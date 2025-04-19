@@ -1,3 +1,4 @@
+import os.path
 import requests, base64
 import json
 import random
@@ -12,6 +13,10 @@ class Sampler(Enum):
 
 loras = []
 random_seed = random.randint(1, 10000000)
+
+#Set paths
+output_images = "output"
+output_json = "json"
 
 #Set prompts
 negative_prompt_quality = "low quality"
@@ -58,6 +63,12 @@ payload = {
     "width":width,
     "height": height
 }
+
+#Create the directories
+if not os.path.exists(output_images):
+    os.makedirs(output_images)
+if not os.path.exists(output_json):
+    os.makedirs(output_json)
 
 #Send request to WebUI's txt2img endpoint
 response = requests.post("http://127.0.0.1:7860/sdapi/v1/txt2img", json=payload)
